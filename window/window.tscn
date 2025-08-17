@@ -3,7 +3,10 @@
 [ext_resource type="Theme" uid="uid://dkoqbi3qjuyt0" path="res://window/browser.tres" id="1_0npdx"]
 [ext_resource type="PackedScene" uid="uid://dvb80obcisb08" path="res://platformer/platformer.tscn" id="1_vrd5k"]
 [ext_resource type="Texture2D" uid="uid://de8guisv34ebj" path="res://assets/settings-2.png" id="2_tmt5v"]
-[ext_resource type="Script" uid="uid://bhmk3d4fcsd1l" path="res://window/terminal.gd" id="4_u8io4"]
+
+[sub_resource type="GDScript" id="GDScript_tmt5v"]
+script/source = "extends CodeEdit
+"
 
 [node name="Window" type="Control"]
 layout_mode = 3
@@ -72,6 +75,7 @@ layout_mode = 2
 metadata/_tab_index = 1
 
 [node name="AddressBar" type="Panel" parent="TabContainer/Rover 1 - Terminal"]
+layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 80.0
 
@@ -104,16 +108,11 @@ offset_right = 1920.0
 offset_bottom = 1000.0
 color = Color(0, 0, 0, 1)
 
-[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Rover 1 - Terminal/ColorRect"]
-clip_contents = false
+[node name="CodeEdit" type="CodeEdit" parent="TabContainer/Rover 1 - Terminal/ColorRect"]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 920.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Rover 1 - Terminal/ColorRect/ScrollContainer"]
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 2
-script = ExtResource("4_u8io4")
+script = SubResource("GDScript_tmt5v")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0

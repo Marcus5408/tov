@@ -1,53 +1,65 @@
-extends VBoxContainer
+extends CodeEdit
 
-var history: Array
-enum MessageType { COMMAND, RESULT, INPUT }
-var font = preload("res://fonts/VT323/VT323-Regular.ttf")
+# Terminal state
+var prompt := "$ "
+var history := []
+var valid_commands := ["help", "query", "neofetch"]
 
 
-func _ready() -> void:
-    history = []
-    add_history(MessageType.RESULT, "Welcome to the terminal!")
-    add_history(MessageType.RESULT, "Type 'help' for a list of commands.")
-    add_history(MessageType.INPUT, "admin@rover1:~$ ")
-    rerender_history()
+func _ready():
+    clear()
+    _print_prompt()
+    set_process_input(true)
 
-func add_history(message: MessageType, contents: String) -> void:
-    history.append({"type": message, "content": contents})
 
-func rerender_history() -> void:
-    if get_child_count() > 0:
-        for child in get_children():
-            remove_child(child)
-            child.queue_free()
+func _print_prompt():
+    var color = Color(0.6, 1, 0.6)
+    var prompt_text = "[color=%s]%s[/color]" % [color.to_html(), prompt]
+    insert_text_at_caret(prompt_text)
 
-    for entry in history:
-        var new_child: Control
-        if entry.type == MessageType.INPUT:
-            new_child = LineEdit.new()
-            new_child.text = entry.content
-            new_child.editable = true
-        else:
-            new_child = Label.new()
-            new_child.text = entry.content
-        
-        new_child.size_flags_vertical = Control.SIZE_EXPAND
-        new_child.add_theme_font_override("font", font)
-        new_child.custom_minimum_size = Vector2(0, 64)
-        new_child.add_theme_font_size_override("font_size", 64)
-        var stylebox := StyleBoxFlat.new()
-        stylebox.bg_color = Color(0,0,0,0)
-        stylebox.content_margin_bottom = 20
-        stylebox.content_margin_top = 20
-        stylebox.content_margin_left = 20
-        new_child.add_theme_stylebox_override("normal", stylebox)
-        add_child(new_child)
 
-func _update_input_messages(line_edit: LineEdit, new_text: String) -> void:
-    for i in range(history.size()):
-        if history[i].type == MessageType.INPUT && history[i].content == line_edit.text:
-            # replace element with a Label
-            history[i].type = MessageType.RESULT
-            history[i].content = new_text
-            break
-    rerender_history()
+func _unhandled_key_input(event):
+    if event is InputEventKey and event.pressed:
+        if event.scancode == KEY_ENTER:
+            var line = get_line(get_caret_line())
+            var cmd = line.replace(prompt, "").strip_edges()
+            history.append(cmd)
+            _handle_command(cmd)
+            _print_prompt()
+
+
+func _handle_command(cmd: String):
+    var args = cmd.split(" ")
+    var main = args[0]
+    if main == "help":
+        _print_help()
+    elif main == "query" and args.size() > 1:
+        _print_query(args[1])
+    elif main == "neofetch":
+        _print_neofetch()
+    else:
+        _print_error("Unknown command: %s" % cmd)
+
+
+func _print_help():
+    var color = Color(0.5, 0.8, 1)
+    var output = "[color=%s]Valid commands:\n  help\n  query <dir>\n  neofetch[/color]\n" % color.to_html()
+    insert_text_at_caret(output)
+
+
+func _print_query(dir: String):
+    var color = Color(1, 0.9, 0.5)
+    var output = "[color=%s]Querying directory: %s\nFake contents: file1.txt, file2.png, folder/[/color]\n" % [color.to_html(), dir]
+    insert_text_at_caret(output)
+
+
+func _print_neofetch():
+    var color = Color(0.8, 1, 0.7)
+    var output = "[color=%s]OS: GodotOS\nKernel: 4.0.0\nShell: FakeTerminal\nResolution: 800x600\n[/color]\n" % color.to_html()
+    insert_text_at_caret(output)
+
+
+func _print_error(msg: String):
+    var color = Color(1, 0.4, 0.4)
+    var output = "[color=%s]%s[/color]\n" % [color.to_html(), msg]
+    insert_text_at_caret(output)
