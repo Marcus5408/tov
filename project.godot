@@ -11,9 +11,18 @@ config_version=5
 [application]
 
 config/name="tov"
-run/main_scene="uid://dvb80obcisb08"
+run/main_scene="uid://drdvoyvn1j21c"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
 
 [input]
 
