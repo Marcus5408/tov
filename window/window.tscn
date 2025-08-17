@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://drdvoyvn1j21c"]
+[gd_scene load_steps=5 format=3 uid="uid://drdvoyvn1j21c"]
 
 [ext_resource type="Theme" uid="uid://dkoqbi3qjuyt0" path="res://window/browser.tres" id="1_0npdx"]
 [ext_resource type="PackedScene" uid="uid://dvb80obcisb08" path="res://platformer/platformer.tscn" id="1_vrd5k"]
 [ext_resource type="Texture2D" uid="uid://de8guisv34ebj" path="res://assets/settings-2.png" id="2_tmt5v"]
+[ext_resource type="Script" uid="uid://bhmk3d4fcsd1l" path="res://window/terminal.gd" id="4_u8io4"]
 
 [node name="Window" type="Control"]
 layout_mode = 3
@@ -94,6 +95,25 @@ offset_right = 1915.0
 offset_bottom = 72.0
 text = "rover1.shadymining.com/terminal?user=admin&password=password123"
 editable = false
+
+[node name="ColorRect" type="ColorRect" parent="TabContainer/Rover 1 - Terminal"]
+custom_minimum_size = Vector2(1920, 920)
+layout_mode = 0
+offset_top = 80.0
+offset_right = 1920.0
+offset_bottom = 1000.0
+color = Color(0, 0, 0, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Rover 1 - Terminal/ColorRect"]
+clip_contents = false
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 920.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Rover 1 - Terminal/ColorRect/ScrollContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+script = ExtResource("4_u8io4")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
