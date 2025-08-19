@@ -83,10 +83,9 @@ func sense(direction: String):
 
 func help():
     add_text("Available commands:")
-    add_text(" - clear: Clear the terminal")
     add_text(" - help: Show this help message")
     add_text(" - neofetch: Show system information")
-    add_text(" - query <text>: ")
+    add_text(" - sense <direction>: Make the robot look in a direction")
 
 # --------------
 # Text Rendering
