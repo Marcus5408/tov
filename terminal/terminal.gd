@@ -30,11 +30,11 @@ func add_entry(prompt: String):
     print_tree_pretty()
     new_entry.add_prompt(prompt)
 
-func _on_entry_submitted(entry: LineEdit, prompt: String):
-    history.append(prompt + entry.text)
-    entry.editable = false
+func _on_entry_submitted(response: String):
+    history.append("> " + response)
+    process_command(response)
     rerender_history()
-    add_entry("$ ")
+    add_entry("Operator@Rover1 ~ % ")
 
 func render_text(text: String, parent: Control = root):
     var rtlabel: RichTextLabel = RichTextLabel.new()

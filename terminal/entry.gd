@@ -22,4 +22,4 @@ func _gui_input(event):
             line_edit.grab_focus()
 
 func _on_text_submitted(new_text: String) -> void:
-    emit_signal("text_entered", ("> " + new_text))
+    emit_signal("text_entered", new_text)
