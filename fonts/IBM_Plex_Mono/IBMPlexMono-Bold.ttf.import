@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cnyw00p85b18u"
-path="res://.godot/imported/VT323-Regular.ttf-d708e6f8a12d95574b2cc5d234228cd0.fontdata"
+uid="uid://bncixg407op03"
+path="res://.godot/imported/IBMPlexMono-Bold.ttf-7939af6c8178544e3f4631d03173cb6d.fontdata"
 
 [deps]
 
-source_file="res://fonts/VT323/VT323-Regular.ttf"
-dest_files=["res://.godot/imported/VT323-Regular.ttf-d708e6f8a12d95574b2cc5d234228cd0.fontdata"]
+source_file="res://fonts/IBM_Plex_Mono/IBMPlexMono-Bold.ttf"
+dest_files=["res://.godot/imported/IBMPlexMono-Bold.ttf-7939af6c8178544e3f4631d03173cb6d.fontdata"]
 
 [params]
 
