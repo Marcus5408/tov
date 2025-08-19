@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://c33xjdod5gutg"]
+
+[ext_resource type="Theme" uid="uid://cdg21trooa67x" path="res://terminal/terminal.tres" id="1_kk4ag"]
+[ext_resource type="Script" uid="uid://dhkccm7bj617o" path="res://terminal/entry.gd" id="2_k3kcb"]
+
+[node name="Entry" type="HBoxContainer"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_kk4ag")
+script = ExtResource("2_k3kcb")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 2
+size_flags_vertical = 0
+bbcode_enabled = true
+fit_content = true
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+expand_to_text_length = true
+caret_blink = true

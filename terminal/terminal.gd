@@ -1,37 +1,54 @@
 extends Control
 
 @onready var root: VBoxContainer = get_node("VBoxContainer")
+var Entry = load("res://terminal/Entry.tscn")
+var history: Array = []
 
 func _ready():
-    add_text("hi")
+    add_text("Last login: Tue Aug 19 1:11:58 on ttys000")
+    rerender_history()
+    add_entry("Operator@Rover1 ~ % ")
+
+func _process(_delta: float) -> void:
+    pass
 
 func neofetch():
-    # adds fake neofetch
-    add_text("          [color=#478CBF]+++++      +++++[/color]            [color=green]operator[/color]@[color=green]rover1[/color]
-          [color=#478CBF]++++++ ++ ++++++[/color]            ---------------
-          [color=#478CBF]++++++++++++++++[/color]            [color=green]OS[/color]: roverOS v1 251908
-  [color=#478CBF]+++   ++++++++++++++++++++   +++[/color]    [color=green]Host[/color]: Rover1,0
-[color=#478CBF]+++++++++++++++++++++++++++++++++++[/color]   [color=green]Kernel[/color]: v4.4.1.stable.official [49a5bc7b6]
-[color=#478CBF]++++++++++++++++++++++++++++++++++++[/color]  [color=green]Uptime[/color]: -90340298 microseconds
-[color=#478CBF] ++++++++++++++++++++++++++++++++++[/color]   [color=green]Packages[/color]: 42 (rver), 1 (cargo)
-  [color=#478CBF]++++++[/color][color=white]:..[/color][color=#478CBF]++++++++++++++[/color][color=white]..:[/color][color=#478CBF]++++++[/color]    [color=green]Shell[/color]: rsh 2.2
-  [color=#478CBF]++++[/color][color=white]..[/color][color=gray]#%#%[/color][color=white].[/color][color=#478CBF]++++++++++[/color][color=white].[/color][color=gray]#%#%[/color][color=white]..[/color][color=#478CBF]++++[/color]    [color=green]Resolution[/color]: 1920x1080
-  [color=#478CBF]++++[/color][color=white]..[/color][color=gray]#%##[/color][color=white].[/color][color=#478CBF]++++[/color][color=white]..[/color][color=#478CBF]++++[/color][color=white].[color=gray]#%##[/color][color=white]..[/color][color=#478CBF]++++[/color]    [color=green]DE[/color]: roverDE v1
-  [color=#478CBF]+++++[color=white]..[/color][color=gray]#%.=[/color][color=#478CBF]++++[/color][color=white]..[/color][color=#478CBF]++++=[color=white].[color=gray]#%[/color][color=white]..[/color][color=#478CBF]+++++[/color]    [color=green]WM[/color]: roamWM
-  [color=#478CBF]++++++++++++++++++++++++++++++++[/color]    [color=green]Terminal[/color]: roverwebtty
-  [color=white].[/color][color=#478CBF]++++++++++++++++++++++++++++++[/color]:    [color=green]CPU[/color]: Intel Pentium 4
-  [color=#478CBF]+++++[/color][color=white]..[/color][color=#478CBF]+++++[/color][color=white]........[/color][color=#478CBF]+++++[/color][color=white]..[/color][color=#478CBF]+++++[/color]    [color=green]GPU[/color]: NVIDIA GeForce RTX 9090 Ti
-  [color=#478CBF]+++++[/color][color=white]=.[/color][color=#478CBF]+++++[/color][color=white].[/color][color=#478CBF]++++++[/color][color=white].[/color][color=#478CBF]+++++[/color][color=white].=[/color][color=#478CBF]+++++[/color]    [color=green]Memory[/color]: 3719MiB / 61035156250 MiB
-   [color=#478CBF]++++++++++++++++++++++++++++++[/color]
-    [color=#478CBF]++++++++++++++++++++++++++++[/color]      [bgcolor=black]   [/bgcolor][bgcolor=red]   [/bgcolor][bgcolor=lime]   [/bgcolor][bgcolor=yellow]   [/bgcolor][bgcolor=blue]   [/bgcolor][bgcolor=magenta]   [/bgcolor][bgcolor=cyan]   [/bgcolor][bgcolor=white_smoke]   [/bgcolor]
-       [color=#478CBF]++++++++++++++++++++++[/color]         [bgcolor=darkgray]   [/bgcolor][bgcolor=orangered]   [/bgcolor][bgcolor=chartreuse]   [/bgcolor][bgcolor=lightyellow]   [/bgcolor][bgcolor=dodgerblue]   [/bgcolor][bgcolor=violet]   [/bgcolor][bgcolor=paleturquoise]   [/bgcolor][bgcolor=white]   [/bgcolor]\n\n")
+    # fake neofetch
+    var text = load("res://terminal/neofetch.bbcode")
+    add_text(text)
+
+func query():
+    pass
 
 func add_text(text: String):
-    # add rich text support
+    history.append(text)
+
+func add_entry(prompt: String):
+    # copy entry
+    var new_entry = Entry.instantiate()
+    root.add_child(new_entry)
+    print_tree_pretty()
+    new_entry.add_prompt(prompt)
+
+func _on_entry_submitted(entry: LineEdit, prompt: String):
+    history.append(prompt + entry.text)
+    entry.editable = false
+    rerender_history()
+    add_entry("$ ")
+
+func render_text(text: String, parent: Control = root):
     var rtlabel: RichTextLabel = RichTextLabel.new()
     rtlabel.bbcode_enabled = true
     rtlabel.append_text(text)
     rtlabel.autowrap_mode = TextServer.AUTOWRAP_WORD
     rtlabel.fit_content = true
     rtlabel.scroll_active = false
-    root.add_child(rtlabel)
+    parent.add_child(rtlabel)
+
+func rerender_history():
+    for child in root.get_children():
+        root.remove_child(child)
+        child.queue_free()
+    # print tree
+    for entry in history:
+        render_text(entry)

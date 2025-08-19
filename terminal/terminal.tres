@@ -1,7 +1,112 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cdg21trooa67x"]
+[gd_resource type="Theme" load_steps=18 format=3 uid="uid://cdg21trooa67x"]
 
 [ext_resource type="FontFile" uid="uid://cbpnh6rr6niki" path="res://fonts/IBM_Plex_Mono/IBMPlexMono-Regular.ttf" id="1_efp7e"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_efp7e"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r8h1r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b3llc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1ig1q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kpawq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p2uvn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vf522"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e0yg7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_efp7e"]
+bg_color = Color(0, 0, 0, 1)
+draw_center = false
+
+[sub_resource type="Image" id="Image_efp7e"]
+data = {
+"data": PackedByteArray(180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 19, 180, 180, 180, 19, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 19, 180, 180, 180, 64, 180, 180, 180, 64, 180, 180, 180, 19, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 19, 180, 180, 180, 64, 180, 180, 180, 64, 180, 180, 180, 19, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 19, 180, 180, 180, 19, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 0),
+"format": "RGBA8",
+"height": 8,
+"mipmaps": false,
+"width": 8
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_r8h1r"]
+image = SubResource("Image_efp7e")
+
+[sub_resource type="Image" id="Image_b3llc"]
+data = {
+"data": PackedByteArray(179, 179, 179, 47, 179, 179, 179, 50, 179, 179, 179, 6, 175, 175, 175, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 64, 180, 180, 180, 64, 177, 177, 177, 49, 180, 180, 180, 64, 175, 175, 175, 54, 175, 175, 175, 6, 175, 175, 175, 0, 180, 180, 180, 0, 180, 180, 180, 64, 180, 180, 180, 64, 177, 177, 177, 5, 177, 177, 177, 52, 180, 180, 180, 64, 175, 175, 175, 54, 175, 175, 175, 6, 180, 180, 180, 0, 180, 180, 180, 64, 180, 180, 180, 64, 177, 177, 177, 0, 177, 177, 177, 5, 177, 177, 177, 52, 180, 180, 180, 64, 179, 179, 179, 50, 179, 179, 179, 0, 180, 180, 180, 64, 180, 180, 180, 64, 178, 178, 178, 0, 178, 178, 178, 6, 178, 178, 178, 53, 180, 180, 180, 64, 177, 177, 177, 49, 177, 177, 177, 0, 180, 180, 180, 64, 180, 180, 180, 64, 178, 178, 178, 6, 178, 178, 178, 53, 180, 180, 180, 64, 178, 178, 178, 53, 177, 177, 177, 5, 180, 180, 180, 0, 180, 180, 180, 64, 180, 180, 180, 64, 181, 181, 181, 48, 180, 180, 180, 64, 178, 178, 178, 53, 178, 178, 178, 5, 178, 178, 178, 0, 180, 180, 180, 0, 180, 180, 180, 64, 180, 180, 180, 64, 181, 181, 181, 41, 181, 181, 181, 48, 178, 178, 178, 5, 178, 178, 178, 0, 180, 180, 180, 0, 180, 180, 180, 0, 180, 180, 180, 64, 180, 180, 180, 64),
+"format": "RGBA8",
+"height": 8,
+"mipmaps": false,
+"width": 8
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_1ig1q"]
+image = SubResource("Image_b3llc")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sffby"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ym3tv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d873l"]
+
 [resource]
 default_font = ExtResource("1_efp7e")
-default_font_size = 32
+default_font_size = 26
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0)
+Label/constants/line_spacing = 3
+Label/constants/outline_size = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/constants/shadow_outline_size = 1
+Label/styles/normal = SubResource("StyleBoxEmpty_efp7e")
+LineEdit/styles/focus = SubResource("StyleBoxEmpty_r8h1r")
+LineEdit/styles/normal = SubResource("StyleBoxEmpty_b3llc")
+LineEdit/styles/read_only = SubResource("StyleBoxEmpty_1ig1q")
+RichTextLabel/colors/default_color = Color(1, 1, 1, 1)
+RichTextLabel/colors/font_outline_color = Color(0, 0, 0, 1)
+RichTextLabel/colors/font_selected_color = Color(0, 0, 0, 0)
+RichTextLabel/colors/font_shadow_color = Color(0, 0, 0, 0)
+RichTextLabel/colors/selection_color = Color(0.1, 0.1, 1, 0.8)
+RichTextLabel/colors/table_border = Color(0, 0, 0, 0)
+RichTextLabel/colors/table_even_row_bg = Color(0, 0, 0, 0)
+RichTextLabel/colors/table_odd_row_bg = Color(0, 0, 0, 0)
+RichTextLabel/constants/line_separation = 0
+RichTextLabel/constants/outline_size = 0
+RichTextLabel/constants/shadow_offset_x = 1
+RichTextLabel/constants/shadow_offset_y = 1
+RichTextLabel/constants/shadow_outline_size = 1
+RichTextLabel/constants/table_h_separation = 3
+RichTextLabel/constants/table_v_separation = 3
+RichTextLabel/constants/text_highlight_h_padding = 3
+RichTextLabel/constants/text_highlight_v_padding = 3
+RichTextLabel/styles/background = SubResource("StyleBoxEmpty_kpawq")
+RichTextLabel/styles/fill = SubResource("StyleBoxEmpty_p2uvn")
+RichTextLabel/styles/focus = SubResource("StyleBoxEmpty_vf522")
+RichTextLabel/styles/normal = SubResource("StyleBoxEmpty_e0yg7")
+TabContainer/styles/panel = SubResource("StyleBoxFlat_efp7e")
+TextEdit/colors/background_color = Color(0, 0, 0, 0)
+TextEdit/colors/caret_background_color = Color(0, 0, 0, 1)
+TextEdit/colors/caret_color = Color(0.875, 0.875, 0.875, 1)
+TextEdit/colors/current_line_color = Color(0.25, 0.25, 0.26, 0.8)
+TextEdit/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+TextEdit/colors/font_outline_color = Color(0, 0, 0, 1)
+TextEdit/colors/font_placeholder_color = Color(0.875, 0.875, 0.875, 0.6)
+TextEdit/colors/font_readonly_color = Color(0.875, 0.875, 0.875, 0.5)
+TextEdit/colors/font_selected_color = Color(0, 0, 0, 0)
+TextEdit/colors/search_result_border_color = Color(0.3, 0.3, 0.3, 0.4)
+TextEdit/colors/search_result_color = Color(0.3, 0.3, 0.3, 1)
+TextEdit/colors/selection_color = Color(0.5, 0.5, 0.5, 1)
+TextEdit/colors/word_highlighted_color = Color(0.5, 0.5, 0.5, 0.25)
+TextEdit/constants/caret_width = 1
+TextEdit/constants/line_spacing = 4
+TextEdit/constants/outline_size = 0
+TextEdit/icons/space = SubResource("ImageTexture_r8h1r")
+TextEdit/icons/tab = SubResource("ImageTexture_1ig1q")
+TextEdit/styles/focus = SubResource("StyleBoxEmpty_sffby")
+TextEdit/styles/normal = SubResource("StyleBoxEmpty_ym3tv")
+TextEdit/styles/read_only = SubResource("StyleBoxEmpty_d873l")
