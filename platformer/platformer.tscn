@@ -1,10 +1,12 @@
-[gd_scene load_steps=11 format=4 uid="uid://dvb80obcisb08"]
+[gd_scene load_steps=13 format=4 uid="uid://dvb80obcisb08"]
 
 [ext_resource type="Script" uid="uid://482da0w3lxjb" path="res://platformer/player.gd" id="1_w1qb0"]
+[ext_resource type="Script" uid="uid://cmekxe6ss16c2" path="res://platformer/platformer.gd" id="1_wmrb2"]
 [ext_resource type="Texture2D" uid="uid://drrsp1ufnt857" path="res://assets/bot.png" id="2_w1qb0"]
 [ext_resource type="Texture2D" uid="uid://dc2uaerpwqxsx" path="res://assets/sunday.png" id="3_g7gp6"]
 [ext_resource type="Script" uid="uid://c2l1bkh8hqecb" path="res://platformer/camera.gd" id="3_je3qg"]
 [ext_resource type="Texture2D" uid="uid://ce2qe6wgpfwbb" path="res://assets/tilemap.png" id="3_nl76y"]
+[ext_resource type="Texture2D" uid="uid://bk2ypbxwn4mst" path="res://assets/beam.png" id="5_ufqir"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vjwt"]
 size = Vector2(54, 57)
@@ -206,19 +208,29 @@ sources/1 = SubResource("TileSetAtlasSource_nl76y")
 sources/0 = SubResource("TileSetAtlasSource_je3qg")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w1qb0"]
-size = Vector2(10.279, 20)
+size = Vector2(25.154, 20)
 
 [node name="Node" type="Node"]
+script = ExtResource("1_wmrb2")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 script = ExtResource("1_w1qb0")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
+z_index = 2
+z_as_relative = false
 texture = ExtResource("2_w1qb0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+z_index = 2
 position = Vector2(0, 3.5)
 shape = SubResource("RectangleShape2D_5vjwt")
+
+[node name="Beam" type="Sprite2D" parent="Player"]
+z_index = 1
+z_as_relative = false
+scale = Vector2(3, 3)
+texture = ExtResource("5_ufqir")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(2, 2)
@@ -243,6 +255,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+z_as_relative = false
 tile_map_data = PackedByteArray("AAAFAAMAAAACAAAAACAGAAMAAAACAAAAACAHAAMAAAACAAAAACAIAAMAAAADAAAAAFAIAAIAAAACAAAAAFAJAAEAAAADAAAAAFAIAAAAAAACAAAAAAAEAAQAAAADAAAAAFADAAQAAAACAAAAACACAAQAAAACAAAAACABAAQAAAACAAAAACAAAAUAAAADAAAAAFD//wUAAAACAAAAACD+/wUAAAACAAAAACD9/wUAAAACAAAAACD8/wUAAAACAAAAACD7/wUAAAACAAAAACD6/wUAAAACAAAAACD5/wUAAAACAAAAACD4/wUAAAACAAAAACD3/wUAAAACAAAAACD2/wUAAAACAAAAACD1/wUAAAADAAAAADD0/wQAAAACAAAAACDz/wQAAAACAAAAACDy/wQAAAADAAAAADDx/wMAAAACAAAAACDw/wMAAAADAAAAADDw/wIAAAACAAAAAEDw/wEAAAACAAAAAEDw/wAAAAACAAAAAEDw////AAADAAAAAGDx////AAACAAAAABDy////AAACAAAAABDz////AAACAAAAABD0////AAACAAAAABD1////AAACAAAAABD6/wAAAAACAAAAAFD6////AAADAAAAAAD5//7/AAADAAAAAAD4//7/AAACAAAAAAD3//7/AAACAAAAAAD7/wEAAAACAAAAAAD8/wEAAAACAAAAAAD9/wEAAAACAAAAAAD+/wEAAAACAAAAAAD//wEAAAACAAAAAAAAAAEAAAACAAAAAAABAAEAAAACAAAAAAACAAEAAAACAAAAAAADAAEAAAACAAAAAAAEAAEAAAACAAAAAAAFAAEAAAACAAAAAAAGAAAAAAADAAAAAGAJAP//AAAEAAAAAGD2//3/AAAEAAAAAGD2//7/AAACAAEAAGD5////AAAAAAAAAAAHAAAAAAACAAAAAAAJAAAAAAACAAEAAHD6/wEAAAAAAAAAAAD2////AAAAAAAAAGAGAAEAAAAAAAAAAGAIAAEAAAAAAAAAAFAEAAMAAAAAAAAAAFAAAAQAAAAAAAAAAFD1/wQAAAAAAAAAAEDy/wMAAAAAAAAAAED1//7/AAAFAAEAAAD1//3/AAAFAAEAAAD0//3/AAAFAAEAAADz//3/AAAFAAEAAADy//3/AAAFAAEAAADx//3/AAAFAAEAAADw//3/AAAFAAEAAADw//7/AAAFAAEAAADx//7/AAAFAAEAAADy//7/AAAFAAEAAADz//7/AAAFAAEAAAD0//7/AAAFAAEAAAAHAAEAAAAFAAEAAAAHAAIAAAAFAAEAAAAGAAIAAAAFAAEAAAAEAAIAAAAFAAEAAAAFAAIAAAAFAAEAAQA=")
 tile_set = SubResource("TileSet_w1qb0")
 
@@ -251,7 +264,7 @@ position = Vector2(0, 3055)
 scale = Vector2(1000, 100)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Void"]
-position = Vector2(4.8605, 0)
+position = Vector2(-0.0249994, 0)
 scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_w1qb0")
 
