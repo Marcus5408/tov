@@ -16,6 +16,9 @@ func add_prompt(prompt: String):
     prompt_label.append_text(prompt)
     prompt_label.custom_minimum_size = Vector2(prompt_label.get_content_width(), prompt_label.get_content_height())
 
+func _ready():
+    line_edit.grab_focus()
+
 func _gui_input(event):
     if event is InputEventMouseButton and event.pressed:
         if line_edit:
