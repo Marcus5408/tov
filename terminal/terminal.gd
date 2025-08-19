@@ -43,6 +43,7 @@ func neofetch():
     if file:
         text = file.get_as_text()
         file.close()
+        text += "\n\n"
     else:
         text = "[color=red]Failed to load `neofetch.bbcode`. Please contact support.[/color]"
     add_text(text)
