@@ -6,29 +6,65 @@ var history: Array = []
 
 func _ready():
     add_text("Last login: Tue Aug 19 1:11:58 on ttys000")
-    rerender_history()
+    add_text("Welcome to the Rover Terminal!")
+    add_text("Type man <command> for more information.")
+    add_text("Type `man terminal` for help using this terminal.")
     add_entry("Operator@Rover1 ~ % ")
 
 func _process(_delta: float) -> void:
     pass
 
+# --------
+# Commands
+# --------
+
+func process_command(command: String):
+    command = command.strip_edges()
+    var args = command.split(" ")
+    match args[0]:
+        "clear":
+            history.clear()
+            rerender_history()
+            add_entry("Operator@Rover1 ~ % ")
+        "help":
+            help()
+        "neofetch":
+            neofetch()
+        _:
+            if command.begins_with("query "):
+                query(command.replace("query ", "").strip_edges())
+            else:
+                add_text("[color=red]Unknown command: %s[/color]" % command)
+
 func neofetch():
-    # fake neofetch
+    # fake neofetch !
     var text = load("res://terminal/neofetch.bbcode")
     add_text(text)
 
-func query():
+func query(_query_params: String):
     pass
+
+func help():
+    add_text("Available commands:")
+    add_text(" - clear: Clear the terminal")
+    add_text(" - help: Show this help message")
+    add_text(" - neofetch: Show system information")
+    add_text(" - query <text>: Query the system")
+
+# --------------
+# Text Rendering
+# --------------
 
 func add_text(text: String):
     history.append(text)
+    render_text(text)
 
 func add_entry(prompt: String):
     # copy entry
     var new_entry = Entry.instantiate()
     root.add_child(new_entry)
-    print_tree_pretty()
     new_entry.add_prompt(prompt)
+    new_entry.connect("text_entered", Callable(self, "_on_entry_submitted"))
 
 func _on_entry_submitted(response: String):
     history.append("> " + response)
