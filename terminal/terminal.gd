@@ -30,11 +30,11 @@ func process_command(command: String):
             help()
         "neofetch":
             neofetch()
+        "sense":
+            var params = command.replace("sense ", "").strip_edges()
+            sense(params)
         _:
-            if command.begins_with("query "):
-                query(command.replace("query ", "").strip_edges())
-            else:
-                add_text("[color=red]Unknown command: %s[/color]" % command)
+            add_text("[color=red]Unknown command: %s[/color]" % command)
 
 func neofetch():
     # fake neofetch !
@@ -48,15 +48,45 @@ func neofetch():
         text = "[color=red]Failed to load `neofetch.bbcode`. Please contact support.[/color]"
     add_text(text)
 
-func query(_query_params: String):
-    pass
+signal sense_direction_changed(direction: String)
+func sense(direction: String):
+    match direction:
+        "north":
+            add_text("Sensing north...")
+        "north-east":
+            add_text("Sensing north-east...")
+        "east":
+            add_text("Sensing east...")
+        "south-east":
+            add_text("Sensing south-east...")
+        "south":
+            add_text("Sensing south...")
+        "south-west":
+            add_text("Sensing south-west...")
+        "west":
+            add_text("Sensing west...")
+        "north-west":
+            add_text("Sensing north-west...")
+        _:
+            add_text("[color=red]Unknown direction: %s[/color]" % direction)
+            add_text("Usage: sense <direction>")
+            add_text("Available directions:")
+            add_text(" - north")
+            add_text(" - north-east")
+            add_text(" - east")
+            add_text(" - south-east")
+            add_text(" - south")
+            add_text(" - south-west")
+            add_text(" - west")
+            add_text(" - north-west")
+    emit_signal("sense_direction_changed", direction)
 
 func help():
     add_text("Available commands:")
     add_text(" - clear: Clear the terminal")
     add_text(" - help: Show this help message")
     add_text(" - neofetch: Show system information")
-    add_text(" - query <text>: Query the system")
+    add_text(" - query <text>: ")
 
 # --------------
 # Text Rendering
