@@ -38,7 +38,13 @@ func process_command(command: String):
 
 func neofetch():
     # fake neofetch !
-    var text = load("res://terminal/neofetch.bbcode")
+    var text = ""
+    var file = FileAccess.open("res://terminal/neofetch.bbcode", FileAccess.READ)
+    if file:
+        text = file.get_as_text()
+        file.close()
+    else:
+        text = "[color=red]Failed to load `neofetch.bbcode`. Please contact support.[/color]"
     add_text(text)
 
 func query(_query_params: String):
@@ -88,3 +94,8 @@ func rerender_history():
     # print tree
     for entry in history:
         render_text(entry)
+    # Scroll to bottom if possible
+    if root.get_child_count() > 0:
+        var last_child = root.get_child(root.get_child_count() - 1)
+        if last_child is RichTextLabel:
+            last_child.scroll_to_line(last_child.get_line_count() - 1)
