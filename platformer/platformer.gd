@@ -2,8 +2,8 @@ extends Node
 const LEVEL_WIDTH := 50
 const LEVEL_HEIGHT := 10
 const TILE_SIZE := 64
-const PLATFORM_LENGTH_RANGE := [3, 8]
-const GAP_LENGTH_RANGE := [2, 5]
+const PLATFORM_LENGTH_RANGE := [20, 30]
+const GAP_LENGTH_RANGE := [20, 30]
 
 
 func _ready():
@@ -19,24 +19,58 @@ func generate_level():
 
     var y_base = float(LEVEL_HEIGHT) / 2
     var x = -10
-    while x < LEVEL_WIDTH:
-        # Random platform length
-        var platform_length = randi() % (PLATFORM_LENGTH_RANGE[1] - PLATFORM_LENGTH_RANGE[0] + 1) + PLATFORM_LENGTH_RANGE[0]
-        # Random vertical offset
-        var y_offset = randi() % 3 - 1  # -1, 0, or 1
-        var y = clamp(y_base + y_offset, 1, LEVEL_HEIGHT - 2)
-        # Place platform tiles
-        for i in range(platform_length):
-            if x + i >= LEVEL_WIDTH:
-                break
-            # Use tile source_id=0, atlas_coords=Vector2i(0, 0), alternative_tile=0
-            tilemap.set_cell(Vector2i(x + i, y), 0, Vector2i(0, 0), 0)
-        x += platform_length
-        # Random gap
+    var max_tiles = 10000  # Set a large number for "infinite" generation
+    var tiles_placed = 0
+
+    # Always generate a 20 tile long platform as the first platform
+    var first_platform_length = 20
+    var first_y = clamp(y_base, 1, LEVEL_HEIGHT - 2)
+    for i in range(first_platform_length):
+        tilemap.set_cell(Vector2i(x + i, first_y), 0, Vector2i(0, 0), 0)
+        tiles_placed += 1
+    x += first_platform_length
+
+    # Add a gap after the first platform
+    var next_gap = randi() % (GAP_LENGTH_RANGE[1] - GAP_LENGTH_RANGE[0] + 1) + GAP_LENGTH_RANGE[0]
+    x += next_gap
+
+    while tiles_placed < max_tiles:
+        var structure_type = randi() % 4
+        match structure_type:
+            0: # Standard platform
+                var platform_length = randi() % (PLATFORM_LENGTH_RANGE[1] - PLATFORM_LENGTH_RANGE[0] + 1) + PLATFORM_LENGTH_RANGE[0]
+                var y_offset = randi() % 3 - 1
+                var y = clamp(y_base + y_offset, 1, LEVEL_HEIGHT - 2)
+                for i in range(platform_length):
+                    tilemap.set_cell(Vector2i(x + i, y), 0, Vector2i(0, 0), 0)
+                    tiles_placed += 1
+                x += platform_length
+            1: # Staircase up
+                var steps = randi() % 5 + 3
+                var y = clamp(y_base, 1, LEVEL_HEIGHT - steps - 1)
+                for i in range(steps):
+                    tilemap.set_cell(Vector2i(x + i, y + i), 0, Vector2i(0, 0), 0)
+                    tiles_placed += 1
+                x += steps
+            2: # Staircase down
+                var steps = randi() % 5 + 3
+                var y = clamp(y_base, steps + 1, LEVEL_HEIGHT - 2)
+                for i in range(steps):
+                    tilemap.set_cell(Vector2i(x + i, y - i), 0, Vector2i(0, 0), 0)
+                    tiles_placed += 1
+                x += steps
+            3: # Floating platform
+                var platform_length = randi() % 5 + 3
+                var y = clamp(y_base + randi() % 4 - 2, 2, LEVEL_HEIGHT - 3)
+                for i in range(platform_length):
+                    tilemap.set_cell(Vector2i(x + i, y), 0, Vector2i(0, 0), 0)
+                    tiles_placed += 1
+                x += platform_length
+
         var gap = randi() % (GAP_LENGTH_RANGE[1] - GAP_LENGTH_RANGE[0] + 1) + GAP_LENGTH_RANGE[0]
         x += gap
 
-    # # Optionally, add ground at the bottom
+    # Optionally, add ground at the bottom
     # for gx in range(LEVEL_WIDTH):
     #     tilemap.set_cell(Vector2i(gx, LEVEL_HEIGHT - 1), 0, Vector2i(0, 0), 0)
 
