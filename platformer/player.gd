@@ -17,6 +17,7 @@ func spawn_player():
     self.velocity = Vector2.ZERO
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var beam: Sprite2D = $Beam
 var prev_direction: float = 0.0
 func _physics_process(delta: float) -> void:
     # Add the gravity.
@@ -37,6 +38,7 @@ func _physics_process(delta: float) -> void:
     if direction:
         velocity.x = direction * SPEED
         sprite.flip_h = direction < 0
+        beam.flip_h = direction < 0
     else:
         velocity.x = move_toward(velocity.x, 0, SPEED)
 
