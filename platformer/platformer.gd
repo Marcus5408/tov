@@ -18,7 +18,7 @@ func generate_level():
     tilemap.clear()
 
     var y_base = float(LEVEL_HEIGHT) / 2
-    var x = 0
+    var x = -10
     while x < LEVEL_WIDTH:
         # Random platform length
         var platform_length = randi() % (PLATFORM_LENGTH_RANGE[1] - PLATFORM_LENGTH_RANGE[0] + 1) + PLATFORM_LENGTH_RANGE[0]
@@ -36,9 +36,9 @@ func generate_level():
         var gap = randi() % (GAP_LENGTH_RANGE[1] - GAP_LENGTH_RANGE[0] + 1) + GAP_LENGTH_RANGE[0]
         x += gap
 
-    # Optionally, add ground at the bottom
-    for gx in range(LEVEL_WIDTH):
-        tilemap.set_cell(Vector2i(gx, LEVEL_HEIGHT - 1), 0, Vector2i(0, 0), 0)
+    # # Optionally, add ground at the bottom
+    # for gx in range(LEVEL_WIDTH):
+    #     tilemap.set_cell(Vector2i(gx, LEVEL_HEIGHT - 1), 0, Vector2i(0, 0), 0)
 
 
 @onready var beam: Sprite2D = get_node("Player/Beam")
