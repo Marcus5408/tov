@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://drdvoyvn1j21c"]
+[gd_scene load_steps=6 format=3 uid="uid://drdvoyvn1j21c"]
 
 [ext_resource type="Theme" uid="uid://dkoqbi3qjuyt0" path="res://window/browser.tres" id="1_0npdx"]
 [ext_resource type="PackedScene" uid="uid://dvb80obcisb08" path="res://platformer/platformer.tscn" id="1_vrd5k"]
+[ext_resource type="Script" uid="uid://bxd34tjuaka7j" path="res://window/tab_container.gd" id="2_fv8kw"]
 [ext_resource type="Texture2D" uid="uid://de8guisv34ebj" path="res://assets/settings-2.png" id="2_tmt5v"]
 [ext_resource type="PackedScene" uid="uid://dscugmlfs2vg8" path="res://terminal/terminal.tscn" id="4_u8io4"]
 
@@ -22,18 +23,19 @@ offset_right = 1922.0
 offset_bottom = 1082.0
 current_tab = 0
 deselect_enabled = true
+script = ExtResource("2_fv8kw")
 
-[node name="Rover 1 - Surroundings" type="Panel" parent="TabContainer"]
+[node name="Surroundings" type="Panel" parent="TabContainer"]
 clip_contents = true
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="AddressBar" type="Panel" parent="TabContainer/Rover 1 - Surroundings"]
+[node name="AddressBar" type="Panel" parent="TabContainer/Surroundings"]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 80.0
 
-[node name="Button" type="Button" parent="TabContainer/Rover 1 - Surroundings/AddressBar"]
+[node name="Button" type="Button" parent="TabContainer/Surroundings/AddressBar"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 offset_left = 20.0
@@ -44,7 +46,7 @@ icon = ExtResource("2_tmt5v")
 icon_alignment = 1
 expand_icon = true
 
-[node name="TextEdit" type="LineEdit" parent="TabContainer/Rover 1 - Surroundings/AddressBar"]
+[node name="TextEdit" type="LineEdit" parent="TabContainer/Surroundings/AddressBar"]
 custom_minimum_size = Vector2(1820, 0)
 layout_mode = 0
 offset_left = 70.0
@@ -54,31 +56,31 @@ offset_bottom = 72.0
 text = "rover1.shadymining.com/feed"
 editable = false
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="TabContainer/Rover 1 - Surroundings"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="TabContainer/Surroundings"]
 layout_mode = 0
 offset_top = 80.0
 offset_right = 1920.0
 offset_bottom = 1000.0
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="TabContainer/Rover 1 - Surroundings/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="TabContainer/Surroundings/SubViewportContainer"]
 handle_input_locally = false
 size = Vector2i(1920, 920)
 render_target_update_mode = 4
 
-[node name="Node" parent="TabContainer/Rover 1 - Surroundings/SubViewportContainer/SubViewport" instance=ExtResource("1_vrd5k")]
+[node name="Node" parent="TabContainer/Surroundings/SubViewportContainer/SubViewport" instance=ExtResource("1_vrd5k")]
 
-[node name="Rover 1 - Terminal" type="Panel" parent="TabContainer"]
+[node name="Terminal" type="Panel" parent="TabContainer"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="AddressBar" type="Panel" parent="TabContainer/Rover 1 - Terminal"]
+[node name="AddressBar" type="Panel" parent="TabContainer/Terminal"]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 80.0
 
-[node name="Button" type="Button" parent="TabContainer/Rover 1 - Terminal/AddressBar"]
+[node name="Button" type="Button" parent="TabContainer/Terminal/AddressBar"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 offset_left = 20.0
@@ -89,7 +91,7 @@ icon = ExtResource("2_tmt5v")
 icon_alignment = 1
 expand_icon = true
 
-[node name="TextEdit" type="LineEdit" parent="TabContainer/Rover 1 - Terminal/AddressBar"]
+[node name="TextEdit" type="LineEdit" parent="TabContainer/Terminal/AddressBar"]
 custom_minimum_size = Vector2(1820, 0)
 layout_mode = 0
 offset_left = 70.0
@@ -99,20 +101,21 @@ offset_bottom = 72.0
 text = "rover1.shadymining.com/terminal?user=admin&password=password123"
 editable = false
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="TabContainer/Rover 1 - Terminal"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="TabContainer/Terminal"]
 layout_mode = 0
 offset_top = 80.0
 offset_right = 1920.0
 offset_bottom = 1000.0
 
-[node name="SubViewport" type="SubViewport" parent="TabContainer/Rover 1 - Terminal/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="TabContainer/Terminal/SubViewportContainer"]
 handle_input_locally = false
 size = Vector2i(1920, 920)
 render_target_update_mode = 0
 
-[node name="Terminal" parent="TabContainer/Rover 1 - Terminal/SubViewportContainer/SubViewport" instance=ExtResource("4_u8io4")]
+[node name="Terminal" parent="TabContainer/Terminal/SubViewportContainer/SubViewport" instance=ExtResource("4_u8io4")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
 
-[connection signal="sense_direction_changed" from="TabContainer/Rover 1 - Terminal/SubViewportContainer/SubViewport/Terminal" to="TabContainer/Rover 1 - Surroundings/SubViewportContainer/SubViewport/Node" method="_on_terminal_sense_direction_changed"]
+[connection signal="tab_changed" from="TabContainer" to="TabContainer" method="_on_tab_changed"]
+[connection signal="sense_direction_changed" from="TabContainer/Terminal/SubViewportContainer/SubViewport/Terminal" to="TabContainer/Surroundings/SubViewportContainer/SubViewport/Node" method="_on_terminal_sense_direction_changed"]

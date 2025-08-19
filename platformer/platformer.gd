@@ -5,74 +5,83 @@ const TILE_SIZE := 64
 const PLATFORM_LENGTH_RANGE := [20, 30]
 const GAP_LENGTH_RANGE := [20, 30]
 
+var tilemap: TileMapLayer = null
+var player: Node2D = null
+var last_generated_x: int = 0
+
 
 func _ready():
-    generate_level()
-
-
-func generate_level():
-    var tilemap = get_node_or_null("TileMapLayer")
+    tilemap = get_node_or_null("TileMapLayer")
+    player = get_node_or_null("Player")
     if not tilemap:
         print("TileMapLayer not found!")
         return
+    if not player:
+        print("Player not found!")
+        return
     tilemap.clear()
+    last_generated_x = -10
+    _generate_initial_platform()
+    set_process(true)
 
+
+func _generate_initial_platform():
     var y_base = float(LEVEL_HEIGHT) / 2
-    var x = -10
-    var max_tiles = 10000  # Set a large number for "infinite" generation
-    var tiles_placed = 0
-
-    # Always generate a 20 tile long platform as the first platform
+    var x = last_generated_x
     var first_platform_length = 20
     var first_y = clamp(y_base, 1, LEVEL_HEIGHT - 2)
     for i in range(first_platform_length):
-        tilemap.set_cell(Vector2i(x + i, first_y), 0, Vector2i(0, 0), 0)
-        tiles_placed += 1
+        tilemap.set_cell(Vector2i(x + i, first_y), 0)
     x += first_platform_length
-
-    # Add a gap after the first platform
     var next_gap = randi() % (GAP_LENGTH_RANGE[1] - GAP_LENGTH_RANGE[0] + 1) + GAP_LENGTH_RANGE[0]
     x += next_gap
+    last_generated_x = x
 
-    while tiles_placed < max_tiles:
+
+func _generate_platforms_until(x_target: int):
+    var y_base = float(LEVEL_HEIGHT) / 2
+    var x = last_generated_x
+    while x < x_target:
         var structure_type = randi() % 4
         match structure_type:
-            0: # Standard platform
+            0:  # Standard platform
                 var platform_length = randi() % (PLATFORM_LENGTH_RANGE[1] - PLATFORM_LENGTH_RANGE[0] + 1) + PLATFORM_LENGTH_RANGE[0]
                 var y_offset = randi() % 3 - 1
                 var y = clamp(y_base + y_offset, 1, LEVEL_HEIGHT - 2)
                 for i in range(platform_length):
-                    tilemap.set_cell(Vector2i(x + i, y), 0, Vector2i(0, 0), 0)
-                    tiles_placed += 1
+                    tilemap.set_cell(Vector2i(x + i, y), 0)
                 x += platform_length
-            1: # Staircase up
+            1:  # Staircase up
                 var steps = randi() % 5 + 3
                 var y = clamp(y_base, 1, LEVEL_HEIGHT - steps - 1)
                 for i in range(steps):
-                    tilemap.set_cell(Vector2i(x + i, y + i), 0, Vector2i(0, 0), 0)
-                    tiles_placed += 1
+                    tilemap.set_cell(Vector2i(x + i, y + i), 0)
                 x += steps
-            2: # Staircase down
+            2:  # Staircase down
                 var steps = randi() % 5 + 3
                 var y = clamp(y_base, steps + 1, LEVEL_HEIGHT - 2)
                 for i in range(steps):
-                    tilemap.set_cell(Vector2i(x + i, y - i), 0, Vector2i(0, 0), 0)
-                    tiles_placed += 1
+                    tilemap.set_cell(Vector2i(x + i, y - i), 0)
                 x += steps
-            3: # Floating platform
+            3:  # Floating platform
                 var platform_length = randi() % 5 + 3
                 var y = clamp(y_base + randi() % 4 - 2, 2, LEVEL_HEIGHT - 3)
                 for i in range(platform_length):
-                    tilemap.set_cell(Vector2i(x + i, y), 0, Vector2i(0, 0), 0)
-                    tiles_placed += 1
+                    tilemap.set_cell(Vector2i(x + i, y), 0)
                 x += platform_length
-
         var gap = randi() % (GAP_LENGTH_RANGE[1] - GAP_LENGTH_RANGE[0] + 1) + GAP_LENGTH_RANGE[0]
         x += gap
+    last_generated_x = x
 
-    # Optionally, add ground at the bottom
-    # for gx in range(LEVEL_WIDTH):
-    #     tilemap.set_cell(Vector2i(gx, LEVEL_HEIGHT - 1), 0, Vector2i(0, 0), 0)
+
+func _process(_delta):
+    if not player:
+        return
+    var player_x = int(player.position.x / TILE_SIZE)
+    var buffer = 50  # How far ahead to generate
+    var x_target = player_x + buffer
+    if x_target > last_generated_x:
+        _generate_platforms_until(x_target)
 
 
 @onready var beam: Sprite2D = get_node("Player/Beam")
