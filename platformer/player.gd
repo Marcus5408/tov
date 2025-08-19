@@ -40,6 +40,12 @@ func _physics_process(delta: float) -> void:
     else:
         velocity.x = move_toward(velocity.x, 0, SPEED)
 
+    # cap velocity in both directions
+    velocity.x = clamp(velocity.x, -SPEED, SPEED)
+    velocity.y = clamp(velocity.y, -SPEED, SPEED)
+
+    print(position)
+
     move_and_slide()
 
 func _on_void_body_entered(body:Node2D) -> void:
