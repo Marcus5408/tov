@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=4 uid="uid://dvb80obcisb08"]
+[gd_scene load_steps=13 format=4 uid="uid://dvb80obcisb08"]
 
 [ext_resource type="Script" uid="uid://482da0w3lxjb" path="res://platformer/player.gd" id="1_w1qb0"]
 [ext_resource type="Script" uid="uid://cmekxe6ss16c2" path="res://platformer/platformer.gd" id="1_wmrb2"]
 [ext_resource type="Texture2D" uid="uid://drrsp1ufnt857" path="res://assets/bot.png" id="2_w1qb0"]
 [ext_resource type="Script" uid="uid://c2l1bkh8hqecb" path="res://platformer/camera.gd" id="3_je3qg"]
+[ext_resource type="Texture2D" uid="uid://ce2qe6wgpfwbb" path="res://assets/tilemap.png" id="3_nl76y"]
 [ext_resource type="Texture2D" uid="uid://bk2ypbxwn4mst" path="res://assets/beam.png" id="5_ufqir"]
 [ext_resource type="Texture2D" uid="uid://ckl16s5bkwv4l" path="res://assets/Rock_Tile_Map.png" id="7_wmrb2"]
 
@@ -107,8 +108,35 @@ texture = ExtResource("7_wmrb2")
 6:2/0 = 0
 6:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_je3qg"]
+texture = ExtResource("3_nl76y")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+1:0/0 = 0
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+4:0/0 = 0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+5:0/0 = 0
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+3:1/0 = 0
+3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+4:1/0 = 0
+4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+5:1/next_alternative_id = 2
+5:1/0 = 0
+5:1/1 = 1
+
 [sub_resource type="TileSet" id="TileSet_w1qb0"]
 physics_layer_0/collision_layer = 1
+sources/24 = SubResource("TileSetAtlasSource_je3qg")
 sources/0 = SubResource("TileSetAtlasSource_ufqir")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w1qb0"]
