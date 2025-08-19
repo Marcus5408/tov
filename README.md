@@ -14,3 +14,10 @@ This is a simple platformer game where you control a robot using your keyboard. 
 `neofetch` - Show system information. Just for fun.
 
 `help` - Show a help message detailing available commands.
+
+## Credits
+
+- [Modular 64x Robots](croomfolk.itch.io/modular-64x-robots) by [croomfolk](croomfolk.itch.io) on itch.io
+  These animated portraits are licensed as CC-BY-SA 4.0 (Creative Commons Attribution ShareAlike 4.0 International).
+
+- [Rock Tilemap](3mar.itch.io/rock-tilemap) by [3Mar](https://3mar.itch.io) on itch.io
