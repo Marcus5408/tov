@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cdg21trooa67x"]
+
+[ext_resource type="FontFile" uid="uid://cbpnh6rr6niki" path="res://fonts/IBM_Plex_Mono/IBMPlexMono-Regular.ttf" id="1_efp7e"]
+
+[resource]
+default_font = ExtResource("1_efp7e")
+default_font_size = 32
