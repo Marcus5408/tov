@@ -1,6 +1,6 @@
 extends Control
 
-@onready var root: VBoxContainer = get_node("VBoxContainer")
+@onready var root: VBoxContainer = get_node("ScrollContainer/VBoxContainer")
 var Entry = load("res://terminal/Entry.tscn")
 var history: Array = []
 
@@ -95,7 +95,6 @@ func rerender_history():
     for entry in history:
         render_text(entry)
     # Scroll to bottom if possible
-    if root.get_child_count() > 0:
-        var last_child = root.get_child(root.get_child_count() - 1)
-        if last_child is RichTextLabel:
-            last_child.scroll_to_line(last_child.get_line_count() - 1)
+    await get_tree().process_frame
+    var scroll_container = get_node("ScrollContainer")
+    scroll_container.scroll_vertical = scroll_container.get_v_scroll_bar().max_value
