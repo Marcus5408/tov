@@ -34,7 +34,7 @@ func spawn_player():
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var beam: Sprite2D = $Beam
-var prev_direction: float = 0.0
+var prev_direction: float = 1.0
 var beam_visible := true
 func _physics_process(delta: float) -> void:
     # Toggle beam visibility with debug_toggle_beam
