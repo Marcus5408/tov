@@ -3,7 +3,8 @@ const LEVEL_WIDTH := 50
 const LEVEL_HEIGHT := 10
 const TILE_SIZE := 64
 const PLATFORM_LENGTH_RANGE := [20, 30]
-const GAP_LENGTH_RANGE := [20, 30]
+const GAP_LENGTH_RANGE := [15, 20]
+var STAIRCASE_RANGE := [8, 15]
 
 
 func _ready():
@@ -46,21 +47,21 @@ func generate_level():
                     tiles_placed += 1
                 x += platform_length
             1: # Staircase up
-                var steps = randi() % 5 + 3
+                var steps = randi() % (STAIRCASE_RANGE[1] - STAIRCASE_RANGE[0] + 1) + STAIRCASE_RANGE[0]
                 var y = clamp(y_base, 1, LEVEL_HEIGHT - steps - 1)
                 for i in range(steps):
                     tilemap.set_cell(Vector2i(x + i, y + i), 0, Vector2i(0, 0), 0)
                     tiles_placed += 1
                 x += steps
             2: # Staircase down
-                var steps = randi() % 5 + 3
+                var steps = randi() % (STAIRCASE_RANGE[1] - STAIRCASE_RANGE[0] + 1) + STAIRCASE_RANGE[0]
                 var y = clamp(y_base, steps + 1, LEVEL_HEIGHT - 2)
                 for i in range(steps):
                     tilemap.set_cell(Vector2i(x + i, y - i), 0, Vector2i(0, 0), 0)
                     tiles_placed += 1
                 x += steps
             3: # Floating platform
-                var platform_length = randi() % 5 + 3
+                var platform_length = int((randi() % (PLATFORM_LENGTH_RANGE[1] - PLATFORM_LENGTH_RANGE[0] + 1) + PLATFORM_LENGTH_RANGE[0]) / 2.0)
                 var y = clamp(y_base + randi() % 4 - 2, 2, LEVEL_HEIGHT - 3)
                 for i in range(platform_length):
                     tilemap.set_cell(Vector2i(x + i, y), 0, Vector2i(0, 0), 0)
