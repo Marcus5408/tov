@@ -1,6 +1,6 @@
 extends CharacterBody2D
-const SPEED = 900.0
-const JUMP_VELOCITY = -800.0
+const SPEED = 800.0
+const JUMP_VELOCITY = -600.0
 const MAX_JUMPS = 2
 
 var jumps_left = MAX_JUMPS
@@ -70,8 +70,6 @@ func _physics_process(delta: float) -> void:
     # cap velocity in both directions
     velocity.x = clamp(velocity.x, -SPEED, SPEED)
     velocity.y = clamp(velocity.y, -SPEED, SPEED)
-
-    print(position)
 
     move_and_slide()
 
