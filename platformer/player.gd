@@ -60,10 +60,12 @@ func _physics_process(delta: float) -> void:
     if direction:
         velocity.x = direction * SPEED
         sprite.flip_h = direction < 0
-        if beam.rotation == deg_to_rad(0) or beam.rotation == deg_to_rad(180):
-            # Only flip the beam if it's horizontal
-            # This prevents flipping when sensing directions
-            beam.flip_h = direction < 0
+    
+        # Flip beam rotation horizontally
+        if prev_direction != direction:
+            # Mirror the beam's rotation horizontally
+            beam.rotation = PI - beam.rotation
+        prev_direction = direction
     else:
         velocity.x = move_toward(velocity.x, 0, SPEED)
 
