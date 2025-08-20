@@ -2,6 +2,7 @@
 
 ![Made for Hack Club Jumpstart](https://img.shields.io/badge/Hack%20Club-Jumpstart-C63872?style=for-the-badge&logo=hackclub&link=daydream.jumpstart.hackclub.com)
 ![Made for Hack Club Daydream](https://img.shields.io/badge/Hack%20Club-Daydream-FFFDCB?style=for-the-badge&logo=hackclub&link=daydream.hackclub.com)
+![Made for Hack Club Summer of Making](https://img.shields.io/badge/Hack%20Club-Summer%20of%20Making-F6DBBA?style=for-the-badge&logo=hackclub&link=summer.hackclub.com)
 ![Made with Godot](https://img.shields.io/badge/Made%20with-Godot-478CBF?style=for-the-badge&logo=godotengine&link=godotengine.org)
 
 A quick demo thing whipped up in Godot for Hack Club's Jumpstart Daydream workshop.
