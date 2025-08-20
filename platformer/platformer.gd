@@ -79,18 +79,24 @@ func generate_level():
 func _on_terminal_sense_direction_changed(direction: String) -> void:
     match direction:
         "north":
-            beam.rotation = deg_to_rad(-90)
+            beam.rotation = deg_to_rad(90)
         "north-east":
-            beam.rotation = deg_to_rad(-45)
+            beam.rotation = deg_to_rad(45)
         "east":
             beam.rotation = deg_to_rad(0)
         "south-east":
-            beam.rotation = deg_to_rad(45)
+            beam.rotation = deg_to_rad(-10)
         "south":
-            beam.rotation = deg_to_rad(90)
+            beam.rotation = deg_to_rad(-90)
         "south-west":
             beam.rotation = deg_to_rad(135)
         "west":
             beam.rotation = deg_to_rad(180)
         "north-west":
             beam.rotation = deg_to_rad(-135)
+
+func _process(_delta: float) -> void:
+    if Input.is_action_just_pressed("debug_rotate_beam_clockwise"):
+        beam.rotation += deg_to_rad(45)
+    if Input.is_action_just_pressed("debug_rotate_beam_anticlockwise"):
+        beam.rotation -= deg_to_rad(45)
