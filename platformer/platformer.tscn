@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=4 uid="uid://dvb80obcisb08"]
+[gd_scene load_steps=12 format=4 uid="uid://dvb80obcisb08"]
 
 [ext_resource type="Script" uid="uid://482da0w3lxjb" path="res://platformer/player.gd" id="1_w1qb0"]
 [ext_resource type="Script" uid="uid://cmekxe6ss16c2" path="res://platformer/platformer.gd" id="1_wmrb2"]
 [ext_resource type="Texture2D" uid="uid://drrsp1ufnt857" path="res://assets/bot.png" id="2_w1qb0"]
 [ext_resource type="Script" uid="uid://c2l1bkh8hqecb" path="res://platformer/camera.gd" id="3_je3qg"]
 [ext_resource type="Texture2D" uid="uid://bk2ypbxwn4mst" path="res://assets/beam.png" id="5_ufqir"]
+[ext_resource type="Script" uid="uid://ckxeigdy6cski" path="res://platformer/beam.gd" id="5_wmrb2"]
 [ext_resource type="Texture2D" uid="uid://ckl16s5bkwv4l" path="res://assets/Rock_Tile_Map.png" id="7_wmrb2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vjwt"]
@@ -112,7 +113,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_ufqir")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w1qb0"]
-size = Vector2(25.154, 20)
+size = Vector2(1920, 1080)
 
 [node name="Node" type="Node"]
 script = ExtResource("1_wmrb2")
@@ -135,6 +136,7 @@ z_index = 1
 z_as_relative = false
 scale = Vector2(3, 3)
 texture = ExtResource("5_ufqir")
+script = ExtResource("5_wmrb2")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(2, 2)
@@ -164,11 +166,11 @@ tile_map_data = PackedByteArray("AAAFAAMAAAACAAAAACAGAAMAAAACAAAAACAHAAMAAAACAAA
 tile_set = SubResource("TileSet_w1qb0")
 
 [node name="Void" type="Area2D" parent="."]
-position = Vector2(0, 3055)
-scale = Vector2(1000, 100)
+position = Vector2(0, 2160)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Void"]
-position = Vector2(-0.0249994, 0)
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_w1qb0")
 
+[connection signal="sense_direction_changed" from="." to="Player/Beam" method="_on_sense_direction_changed"]
 [connection signal="body_entered" from="Void" to="Player" method="_on_void_body_entered"]
