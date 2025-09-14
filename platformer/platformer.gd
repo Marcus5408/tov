@@ -42,6 +42,14 @@ func generate_platform(start_pos: Vector2, dimensions: Vector2) -> int:
     # return x changed
     return tile_columns
 
+func generate_staircase(start_pos: Vector2, steps: int, stair_up: bool = false) -> int:
+    var tile_columns = 0
+    var x = int(start_pos.x)
+    var y = int(start_pos.y)
+    for i in range(steps):
+        tilemap.set_cell(Vector2i(x + i, y + (i if stair_up else -i)), 0, Vector2i(0, 0), 0)
+        tile_columns += 1
+    return tile_columns
 
 func generate_level():
     var y_base = float(LEVEL_HEIGHT) / 2
@@ -69,19 +77,13 @@ func generate_level():
                 x += platform_length
             1:  # Staircase up
                 var steps = randi() % (STAIRCASE_RANGE[1] - STAIRCASE_RANGE[0] + 1) + STAIRCASE_RANGE[0]
-                
                 var y = clamp(y_base, 1, LEVEL_HEIGHT - steps - 1)
-                for i in range(steps):
-                    tilemap.set_cell(Vector2i(x + i, y + i), 0, Vector2i(0, 0), 0)
-                    tilemap.set_cell(Vector2i(x + i, y + i), 0, Vector2i(0, 0), 0)
-                    tiles_placed += 1
+                tiles_placed += generate_staircase(Vector2(x, y), steps, true)
                 x += steps
             2:  # Staircase down
                 var steps = randi() % (STAIRCASE_RANGE[1] - STAIRCASE_RANGE[0] + 1) + STAIRCASE_RANGE[0]
                 var y = clamp(y_base, steps + 1, LEVEL_HEIGHT - 2)
-                for i in range(steps):
-                    tilemap.set_cell(Vector2i(x + i, y - i), 0, Vector2i(0, 0), 0)
-                    tiles_placed += 1
+                tiles_placed += generate_staircase(Vector2(x, y), steps, false)
                 x += steps
             3:  # Floating platform
                 var platform_length = int((randi() % (PLATFORM_LENGTH_RANGE[1] - PLATFORM_LENGTH_RANGE[0] + 1) + PLATFORM_LENGTH_RANGE[0]) / 2.0)
