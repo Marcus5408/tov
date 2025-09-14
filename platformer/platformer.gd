@@ -5,6 +5,7 @@ const TILE_SIZE := 64
 const PLATFORM_LENGTH_RANGE := [20, 30]
 const GAP_LENGTH_RANGE := [15, 20]
 var STAIRCASE_RANGE := [8, 15]
+var STAIRCASE_THICKNESS_RANGE := [1, 3]
 @onready var tilemap = get_node("TileMapLayer")
 
 func _ready():
@@ -42,12 +43,17 @@ func generate_platform(start_pos: Vector2, dimensions: Vector2) -> int:
     # return x changed
     return tile_columns
 
-func generate_staircase(start_pos: Vector2, steps: int, stair_up: bool = false) -> int:
+func generate_staircase(start_pos: Vector2, steps: int, thickness: int, stair_up: bool = false) -> int:
     var tile_columns = 0
     var x = int(start_pos.x)
     var y = int(start_pos.y)
+    var tile := Vector2i(0, 0)
+    tilemap.set_cell(Vector2i(x - 1, y), 0, tile, 0)
     for i in range(steps):
-        tilemap.set_cell(Vector2i(x + i, y + (i if stair_up else -i)), 0, Vector2i(0, 0), 0)
+        tile.x = 0 if i == 0 else (2 if i == steps - 1 else 1)
+        for j in range(thickness):
+            tile.y = 0 if j == 0 else 2 if j == thickness - 1 else 1
+            tilemap.set_cell(Vector2i(x + i, y + (i if stair_up else -i) + j), 0, tile, 0)
         tile_columns += 1
     return tile_columns
 
@@ -77,13 +83,15 @@ func generate_level():
                 x += platform_length
             1:  # Staircase up
                 var steps = randi() % (STAIRCASE_RANGE[1] - STAIRCASE_RANGE[0] + 1) + STAIRCASE_RANGE[0]
+                var thickness = randi() % (STAIRCASE_THICKNESS_RANGE[1] - STAIRCASE_THICKNESS_RANGE[0] + 1) + STAIRCASE_THICKNESS_RANGE[0]
                 var y = clamp(y_base, 1, LEVEL_HEIGHT - steps - 1)
-                tiles_placed += generate_staircase(Vector2(x, y), steps, true)
+                tiles_placed += generate_staircase(Vector2(x, y), steps, thickness, true)
                 x += steps
             2:  # Staircase down
                 var steps = randi() % (STAIRCASE_RANGE[1] - STAIRCASE_RANGE[0] + 1) + STAIRCASE_RANGE[0]
+                var thickness = randi() % (STAIRCASE_THICKNESS_RANGE[1] - STAIRCASE_THICKNESS_RANGE[0] + 1) + STAIRCASE_THICKNESS_RANGE[0]
                 var y = clamp(y_base, steps + 1, LEVEL_HEIGHT - 2)
-                tiles_placed += generate_staircase(Vector2(x, y), steps, false)
+                tiles_placed += generate_staircase(Vector2(x, y), steps, thickness, false)
                 x += steps
             3:  # Floating platform
                 var platform_length = int((randi() % (PLATFORM_LENGTH_RANGE[1] - PLATFORM_LENGTH_RANGE[0] + 1) + PLATFORM_LENGTH_RANGE[0]) / 2.0)
