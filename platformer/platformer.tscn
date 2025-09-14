@@ -169,7 +169,6 @@ tile_set = SubResource("TileSet_w1qb0")
 position = Vector2(0, 2160)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Void"]
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_w1qb0")
 
 [connection signal="sense_direction_changed" from="." to="Player/Beam" method="_on_sense_direction_changed"]
