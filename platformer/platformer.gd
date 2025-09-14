@@ -15,7 +15,7 @@ func _ready():
     generate_level()
 
 func generate_platform(start_pos: Vector2, dimensions: Vector2) -> int:
-    var tiles_placed = 0
+    var tile_columns = 0
     var platform_length = int(dimensions.x)
     var layers = int(dimensions.y)
     var x = int(start_pos.x)
@@ -38,8 +38,9 @@ func generate_platform(start_pos: Vector2, dimensions: Vector2) -> int:
                 Vector2i(atlas_x, atlas_y),
                 0
             )
-            tiles_placed += 1
-    return tiles_placed
+            tile_columns += 1
+    # return x changed
+    return tile_columns
 
 
 func generate_level():
@@ -49,7 +50,8 @@ func generate_level():
     var tiles_placed = 0
 
     # Always generate a 20 tile long platform as the first platform
-    generate_platform(Vector2(x, y_base), Vector2(20, 1))
+    x += generate_platform(Vector2(x, y_base), Vector2(20, 1))
+    tiles_placed += 20
 
     # Add a gap after the first platform
     var next_gap = randi() % (GAP_LENGTH_RANGE[1] - GAP_LENGTH_RANGE[0] + 1) + GAP_LENGTH_RANGE[0]
