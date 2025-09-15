@@ -17,12 +17,12 @@ func _ready():
     generate_level()
 
 
-func generate_platform(start_pos: Vector2, dimensions: Vector2) -> int:
+func generate_platform(start_pos: Vector2i, dimensions: Vector2i) -> int:
     var tile_columns = 0
-    var platform_length = int(dimensions.x)
-    var layers = int(dimensions.y)
-    var x = int(start_pos.x)
-    var y = int(start_pos.y)
+    var platform_length = dimensions.x
+    var layers = dimensions.y
+    var x = start_pos.x
+    var y = start_pos.y
     for layer in range(layers):
         for column in range(platform_length):
             var is_edge_column = column == 0 or column == platform_length - 1
@@ -47,12 +47,14 @@ func generate_platform(start_pos: Vector2, dimensions: Vector2) -> int:
     return tile_columns
 
 
-func generate_staircase(start_pos: Vector2, steps: int, thickness: int, stair_up: bool = false) -> int:
+func generate_staircase(start_pos: Vector2i, steps: int, thickness: int, stair_up: bool = false, landing_length: int = 1) -> int:
     var tile_columns = 0
-    var x = int(start_pos.x)
-    var y = int(start_pos.y)
+    var x = start_pos.x
+    var y = start_pos.y
     var tile := Vector2i(0, 0)
-    tilemap.set_cell(Vector2i(x - 1, y), 0, tile, 0)
+    for column in range(landing_length):
+        for row in range(thickness):
+            tilemap.set_cell(Vector2i(x - 1, y + row), 0, tile, 0)
     for i in range(steps):
         tile.x = 0 if i == 0 else (2 if i == steps - 1 else 1)
         for j in range(thickness):
@@ -63,13 +65,13 @@ func generate_staircase(start_pos: Vector2, steps: int, thickness: int, stair_up
 
 
 func generate_level():
-    var y_base = float(LEVEL_HEIGHT) / 2
+    var y_base = int(float(LEVEL_HEIGHT) / 2.0)
     var x = -10
     var max_tiles = 10000  # Set a large number for "infinite" generation
     var tiles_placed = 0
 
     # Always generate a 20 tile long platform as the first platform
-    x += generate_platform(Vector2(x, y_base), Vector2(20, 1))
+    x += generate_platform(Vector2i(x, y_base), Vector2i(20, 1))
     tiles_placed += 20
 
     # Add a gap after the first platform
@@ -84,24 +86,24 @@ func generate_level():
                 var y_offset = randi() % 3 - 1
                 var y = clamp(y_base + y_offset, 1, LEVEL_HEIGHT - 2)
                 var y_variation = randi() % 2
-                tiles_placed += generate_platform(Vector2(x, y), Vector2(platform_length, y_variation + 1))
+                tiles_placed += generate_platform(Vector2i(x, y), Vector2i(platform_length, y_variation + 1))
                 x += platform_length
             1:  # Staircase up
                 var steps = randi() % (STAIRCASE_RANGE[1] - STAIRCASE_RANGE[0] + 1) + STAIRCASE_RANGE[0]
                 var thickness = randi() % (STAIRCASE_THICKNESS_RANGE[1] - STAIRCASE_THICKNESS_RANGE[0] + 1) + STAIRCASE_THICKNESS_RANGE[0]
                 var y = clamp(y_base, 1, LEVEL_HEIGHT - steps - 1)
-                tiles_placed += generate_staircase(Vector2(x, y), steps, thickness, true)
+                tiles_placed += generate_staircase(Vector2i(x, y), steps, thickness, true)
                 x += steps
             2:  # Staircase down
                 var steps = randi() % (STAIRCASE_RANGE[1] - STAIRCASE_RANGE[0] + 1) + STAIRCASE_RANGE[0]
                 var thickness = randi() % (STAIRCASE_THICKNESS_RANGE[1] - STAIRCASE_THICKNESS_RANGE[0] + 1) + STAIRCASE_THICKNESS_RANGE[0]
                 var y = clamp(y_base, steps + 1, LEVEL_HEIGHT - 2)
-                tiles_placed += generate_staircase(Vector2(x, y), steps, thickness, false)
+                tiles_placed += generate_staircase(Vector2i(x, y), steps, thickness, false)
                 x += steps
             3:  # Floating platform
                 var platform_length = int((randi() % (PLATFORM_LENGTH_RANGE[1] - PLATFORM_LENGTH_RANGE[0] + 1) + PLATFORM_LENGTH_RANGE[0]) / 2.0)
                 var y = clamp(y_base + randi() % 4 - 2, 2, LEVEL_HEIGHT - 3)
-                tiles_placed += generate_platform(Vector2(x, y), Vector2(platform_length, 1))
+                tiles_placed += generate_platform(Vector2i(x, y), Vector2i(platform_length, 1))
                 x += platform_length
 
         var gap = randi() % (GAP_LENGTH_RANGE[1] - GAP_LENGTH_RANGE[0] + 1) + GAP_LENGTH_RANGE[0]
