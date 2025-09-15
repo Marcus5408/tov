@@ -24,19 +24,20 @@ func generate_platform(start_pos: Vector2, dimensions: Vector2) -> int:
     for layer in range(layers):
         for column in range(platform_length):
             var is_edge_column = column == 0 or column == platform_length - 1
-            var atlas_x = ((
+            var is_edge_layer = layer == 0 or layer == layers - 1
+            var atlas = Vector2i((((
                     0 if column == 0 else 2  # edges
                 ) if is_edge_column else 1  # middle
             ) if platform_length > 1 else 3  # single tile
-            var is_edge_layer = layer == 0 or layer == layers - 1
-            var atlas_y = ((
+            ),((
                     0 if layer == 0 else 2  # edges
                 ) if is_edge_layer else 1  # middle
             ) if layers > 1 else 3  # single layer
+            )
             tilemap.set_cell(
                 Vector2i(x + column, y + layer),
                 0,
-                Vector2i(atlas_x, atlas_y),
+                Vector2i(atlas.x, atlas.y),
                 0
             )
             tile_columns += 1
