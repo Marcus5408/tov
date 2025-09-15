@@ -8,12 +8,14 @@ var STAIRCASE_RANGE := [8, 15]
 var STAIRCASE_THICKNESS_RANGE := [1, 3]
 @onready var tilemap = get_node("TileMapLayer")
 
+
 func _ready():
     if not tilemap:
         print("TileMapLayer not found!")
         return
     tilemap.clear()
     generate_level()
+
 
 func generate_platform(start_pos: Vector2, dimensions: Vector2) -> int:
     var tile_columns = 0
@@ -44,6 +46,7 @@ func generate_platform(start_pos: Vector2, dimensions: Vector2) -> int:
     # return x changed
     return tile_columns
 
+
 func generate_staircase(start_pos: Vector2, steps: int, thickness: int, stair_up: bool = false) -> int:
     var tile_columns = 0
     var x = int(start_pos.x)
@@ -57,6 +60,7 @@ func generate_staircase(start_pos: Vector2, steps: int, thickness: int, stair_up
             tilemap.set_cell(Vector2i(x + i, y + (i if stair_up else -i) + j), 0, tile, 0)
         tile_columns += 1
     return tile_columns
+
 
 func generate_level():
     var y_base = float(LEVEL_HEIGHT) / 2
@@ -102,6 +106,7 @@ func generate_level():
 
         var gap = randi() % (GAP_LENGTH_RANGE[1] - GAP_LENGTH_RANGE[0] + 1) + GAP_LENGTH_RANGE[0]
         x += gap
+
 
 signal sense_direction_changed(direction: String)
 func _on_terminal_sense_direction_changed(direction: String) -> void:
