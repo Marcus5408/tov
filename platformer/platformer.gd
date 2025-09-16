@@ -47,8 +47,12 @@ func generate_platform(start_pos: Vector2i, dimensions: Vector2i) -> int:
     return tile_columns
 
 
-func get_tile_for_landing(column: int, row: int, landing_length: int, thickness: int) -> Vector2i:
-    var x = 0 if column == landing_length - 1 else 1
+func get_beginning_landing_tile(column: int, row: int, landing_length: int, thickness: int, is_ascending: bool) -> Vector2i:
+    var x = (
+        2 if column == 0
+        else (0 if column == landing_length - 1
+        else 1)
+    )
     var y = (
         3 if thickness == 1
         else (0 if row == 0
@@ -58,35 +62,31 @@ func get_tile_for_landing(column: int, row: int, landing_length: int, thickness:
     return Vector2i(x, y)
 
 
-func get_step_tile(i: int, j: int, steps: int, thickness: int, is_ascending: bool, landing_length: int = 0) -> Vector2i:
+func get_step_tile(col: int, row: int, steps: int, thickness: int, is_ascending: bool, landing_length: int = 0) -> Vector2i:
     var x = (
+        2 if col == 0 and thickness == 1 else
+        3 if thickness == 1 else
+        # If ascending, top row and first step, x = 1
+        (1 if is_ascending and row == 0 and col == 0 else
         # First step, no landing, top row OR any step, top row
         (0 if is_ascending else 2) if (
-            (i == 0 and landing_length == 0 and j == 0) or
-            (j == 0 and i != 0)
+            (col == 0 and landing_length == 0 and row == 0) or
+            (row == 0)
         )
         # Last step, no landing, bottom row OR any step, bottom row
         else (
-            (2 if is_ascending else 0) if (
-                (i == steps - 1 and landing_length == 0 and j == thickness - 1) or
-                (j == thickness - 1)
+            # Special case: bottom row of first step and is_ascending is false
+            1 if (col == 0 and row == thickness - 1 and not is_ascending)
+            else (
+                (2 if is_ascending else 0) if (
+                    (col == steps - 1 and landing_length == 0 and row == thickness - 1) or
+                    (row == thickness - 1)
+                )
+                # Middle tiles
+                else 1
             )
-            # Middle tiles
-            else 1
-        )
+        ))
     )
-    var y = (
-        3 if thickness == 1
-        else (0 if j == 0
-        else (2 if j == thickness - 1
-        else 1))
-    )
-
-    return Vector2i(x, y)
-
-
-func _get_ending_tile(row, column, landing_length, thickness):
-    var x = 0 if (row == 0 and column == 0) else (2 if column == landing_length - 1 else 1)
     var y = (
         3 if thickness == 1
         else (0 if row == 0
@@ -97,15 +97,40 @@ func _get_ending_tile(row, column, landing_length, thickness):
     return Vector2i(x, y)
 
 
-func generate_staircase(start_pos: Vector2i, steps: int, thickness: int, is_ascending: bool = true, landing_length: int = 5) -> int:
+func get_ending_landing_tile(row: int, column: int, landing_length: int, thickness: int, is_ascending: bool) -> Vector2i:
+    var x = (
+        # If not ascending, bottom row and first column, x = 0
+        0 if (not is_ascending and row == thickness - 1 and column == 0)
+        else (
+            1 if (not is_ascending and row == 0 and column == 0)
+            else (
+                0 if (row == 0 and column == 0)
+                else (
+                    2 if column == landing_length - 1
+                    else 1
+                )
+            )
+        )
+    )
+    var y = (
+        3 if thickness == 1
+        else (0 if row == 0
+        else (2 if row == thickness - 1
+        else 1))
+    )
+
+    return Vector2i(x, y)
+
+
+func generate_staircase(start_pos: Vector2i, steps: int, thickness: int, is_ascending: bool, landing_length: int = 5) -> int:
     var tile_columns = 0
-    var x = start_pos.x - landing_length - 2
+    var x = start_pos.x - landing_length - 1
     var y = start_pos.y
 
     # generate beginning landing
     for column in range(landing_length):
         for row in range(thickness):
-            var tile = get_tile_for_landing(column, row, landing_length, thickness)
+            var tile = get_beginning_landing_tile(column, row, landing_length, thickness, is_ascending)
             tilemap.set_cell(Vector2i(x - column, y + row), 0, tile, 0)
 
     # generate steps
@@ -118,7 +143,7 @@ func generate_staircase(start_pos: Vector2i, steps: int, thickness: int, is_asce
     # generate ending landing
     for column in range(landing_length):
         for row in range(thickness):
-            var tile = _get_ending_tile(row, column, landing_length, thickness)
+            var tile = get_ending_landing_tile(row, column, landing_length, thickness, is_ascending)
             tilemap.set_cell(Vector2i(x + steps + column, y + (-steps if is_ascending else steps) + row), 0, tile, 0)
 
     return tile_columns
