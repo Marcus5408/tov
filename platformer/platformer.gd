@@ -47,7 +47,7 @@ func generate_platform(start_pos: Vector2i, dimensions: Vector2i) -> int:
     return tile_columns
 
 
-func get_beginning_landing_tile(column: int, row: int, landing_length: int, thickness: int, is_ascending: bool) -> Vector2i:
+func get_beginning_landing_tile(column: int, row: int, landing_length: int, thickness: int) -> Vector2i:
     var x = (
         2 if column == 0
         else (0 if column == landing_length - 1
@@ -130,7 +130,7 @@ func generate_staircase(start_pos: Vector2i, steps: int, thickness: int, is_asce
     # generate beginning landing
     for column in range(landing_length):
         for row in range(thickness):
-            var tile = get_beginning_landing_tile(column, row, landing_length, thickness, is_ascending)
+            var tile = get_beginning_landing_tile(column, row, landing_length, thickness)
             tilemap.set_cell(Vector2i(x - column, y + row), 0, tile, 0)
 
     # generate steps
