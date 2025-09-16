@@ -49,7 +49,7 @@ func generate_platform(start_pos: Vector2i, dimensions: Vector2i) -> int:
 
 func generate_staircase(start_pos: Vector2i, steps: int, thickness: int, is_ascending: bool = true, landing_length: int = 5) -> int:
     var tile_columns = 0
-    var x = start_pos.x - landing_length - 1
+    var x = start_pos.x - landing_length - 2
     var y = start_pos.y
     var tile := Vector2i(0, 0)
     # generate beginning landing
@@ -90,11 +90,12 @@ func generate_staircase(start_pos: Vector2i, steps: int, thickness: int, is_asce
         tile_columns += 1
     # generate ending landing
     for column in range(landing_length):
-        tile.x = (
-            2 if (column == landing_length - 1)  # trailing edge
-            else 1  # anything else
-        )
         for row in range(thickness):
+            tile.x = (
+                0 if (row == 0 and column == 0)  # top edge
+                else (2 if (column == landing_length - 1)  # trailing edge
+                else 1  # anything else
+            ))
             tile.y = (
                 3 if thickness == 1  # single layer
                 else (0 if (row == 0)  # top edge
